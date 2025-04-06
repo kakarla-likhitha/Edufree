@@ -1,0 +1,193 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Header & Navbar */
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+/* Navbar Styles */
+nav {
+    position: fixed; /* Makes navbar stay fixed at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #007BFF; /* Blue background */
+    padding: 15px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensures it stays above other content */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px 10px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+/* Underline on hover with green color */
+nav ul li a:hover::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color:red; /* Green underline */
+}
+
+
+/* Sections */
+section {
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #007bff;
+}
+
+/* Forms */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+    margin-top: 20px;
+}
+/* Future Paths Section */
+.details {
+    display: none;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-left: 4px solid #007BFF;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+/* Future Paths Section */
+#paths {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#paths h2 {
+    text-align: center;
+    color: #007BFF;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+/* Clickable headings */
+.clickable {
+    cursor: pointer;
+    color: #0056b3;
+    font-size: 20px;
+    margin-top: 15px;
+    transition: color 0.3s;
+}
+
+/* Change color when hovered */
+.clickable:hover {
+    color: #28a745; /* Green */
+}
+
+/* Details are hidden by default */
+.details {
+    display: none;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-left: 4px solid #007BFF;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.details ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.details li {
+    margin-bottom: 5px;
+}
+/* Social Icons Styling */
+.social-icons {
+    margin-top: 10px;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.social-icon {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+}
