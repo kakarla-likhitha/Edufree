@@ -1,40 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function AdminPanel() {
+  const [volunteers, setVolunteers] = useState([]);
   const [image, setImage] = useState(null);
 
-  const handleUpload = (e) => {
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/volunteers")
+      .then((res) => setVolunteers(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const handleUpload = async (e) => {
     e.preventDefault();
-    console.log("Image to upload:", image); // Connect to backend
-    alert("Image uploaded!");
-    setImage(null);
+    const formData = new FormData();
+    formData.append("image", image);
+
+    try {
+      await axios.post("http://localhost:5000/api/gallery/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      alert("Image uploaded!");
+      setImage(null);
+    } catch (err) {
+      console.error(err);
+      alert("Upload failed!");
+    }
   };
 
   return (
-    <div className="container py-5">
-      <h2 className="mb-4 text-center">Admin Panel</h2>
+    <div>
+      <h3>Registered Volunteers</h3>
+      <ul className="list-group">
+        {volunteers.map((v, index) => (
+          <li className="list-group-item" key={index}>
+            {v.name} – {v.email} – {v.skills}
+          </li>
+        ))}
+      </ul>
 
-      <form onSubmit={handleUpload} className="mb-5">
-        <div className="mb-3">
-          <label className="form-label">Upload Program Photo</label>
-          <input
-            type="file"
-            className="form-control"
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        </div>
-        <button type="submit" className="btn btn-success">
+      <h3 className="mt-5">Upload Event Image</h3>
+      <form onSubmit={handleUpload}>
+        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+        <button className="btn btn-primary mt-2" type="submit">
           Upload
         </button>
       </form>
-
-      <h4>Registered Volunteers</h4>
-      {/* Later: Map volunteers from backend */}
-      <ul className="list-group">
-        <li className="list-group-item">Volunteer 1</li>
-        <li className="list-group-item">Volunteer 2</li>
-        <li className="list-group-item">Volunteer 3</li>
-      </ul>
     </div>
   );
 }
