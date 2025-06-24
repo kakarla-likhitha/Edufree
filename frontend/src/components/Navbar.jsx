@@ -1,3 +1,5 @@
+// src/components/Navbar.jsx
+
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -31,6 +33,17 @@ function Navbar() {
           <li className="nav-item">
             <Link className="nav-link" to="/volunteer">
               Volunteer
+            </Link>{" "}
+            {/* Registration Form */}
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/login">
+              Login
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/dashboard">
+              Dashboard
             </Link>
           </li>
           <li className="nav-item">

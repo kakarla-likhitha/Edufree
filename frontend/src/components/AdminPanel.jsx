@@ -2,51 +2,74 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function AdminPanel() {
-  const [volunteers, setVolunteers] = useState([]);
-  const [image, setImage] = useState(null);
+  const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/volunteers")
-      .then((res) => setVolunteers(res.data))
-      .catch((err) => console.log(err));
+    fetchAllVideos();
   }, []);
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", image);
-
+  const fetchAllVideos = async () => {
     try {
-      await axios.post("http://localhost:5000/api/gallery/upload", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      alert("Image uploaded!");
-      setImage(null);
+      const res = await axios.get("http://localhost:5000/api/videos/all");
+      setVideos(res.data);
     } catch (err) {
-      console.error(err);
-      alert("Upload failed!");
+      console.error("Failed to fetch videos:", err);
+    }
+  };
+
+  const handleStatusUpdate = async (videoId, newStatus) => {
+    try {
+      await axios.patch(`http://localhost:5000/api/videos/${videoId}/status`, {
+        status: newStatus,
+      });
+      fetchAllVideos(); // refresh list
+    } catch (err) {
+      console.error("Failed to update status:", err);
     }
   };
 
   return (
-    <div>
-      <h3>Registered Volunteers</h3>
-      <ul className="list-group">
-        {volunteers.map((v, index) => (
-          <li className="list-group-item" key={index}>
-            {v.name} – {v.email} – {v.skills}
-          </li>
-        ))}
-      </ul>
-
-      <h3 className="mt-5">Upload Event Image</h3>
-      <form onSubmit={handleUpload}>
-        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-        <button className="btn btn-primary mt-2" type="submit">
-          Upload
-        </button>
-      </form>
+    <div className="container mt-4">
+      <h2 className="mb-4">Admin Panel: Manage Videos</h2>
+      {videos.length === 0 ? (
+        <p>No videos available.</p>
+      ) : (
+        <table className="table table-bordered">
+          <thead className="table-light">
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Volunteer ID</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {videos.map((video) => (
+              <tr key={video._id}>
+                <td>{video.title}</td>
+                <td>{video.description}</td>
+                <td>{video.status}</td>
+                <td>{video.uploadedBy}</td>
+                <td>
+                  <button
+                    className="btn btn-success btn-sm me-2"
+                    onClick={() => handleStatusUpdate(video._id, "Approved")}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleStatusUpdate(video._id, "Rejected")}
+                  >
+                    Reject
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@ const volunteerSchema = new mongoose.Schema({
   phone: String,
   skills: String,
   message: String,
+  password: { type: String, required: true },
 });
 
 module.exports = mongoose.model("Volunteer", volunteerSchema);

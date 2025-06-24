@@ -4,26 +4,27 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const PORT = 5000;
+const port = 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
-// MongoDB Connection
+const volunteerRoutes = require("./routes/volunteerRoutes");
+const authRoutes = require("./routes/authRoutes");
+const videoRoutes = require("./routes/videoRoutes");
+const adminRoutes = require("./routes/adminRoutes"); // ✅ NEW
+
+app.use("/api/volunteers", volunteerRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/videos", videoRoutes);
+app.use("/api/admin", adminRoutes); // ✅ NEW
+
 mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB connected locally"))
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Routes
-const volunteerRoutes = require("./routes/volunteerRoutes");
-app.use("/api/volunteers", volunteerRoutes);
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
